@@ -3,6 +3,7 @@ from flask_restx import Resource, Api, Namespace
 from models.database import db_session
 from models.Model import TbMaeChulMyungSe, TbMaeChulHapGae
 from util.auth import *
+from sqlalchemy import func
 
 MaeChul = Namespace('MaeChul')
 
@@ -22,8 +23,11 @@ class getDayMaeChul(Resource):
                         TbMaeChulHapGae.MaeChulDate >= post_data['startDate'],
                         TbMaeChulHapGae.MaeChulDate <= post_data['endDate']).all()
 
-                    queries = db_session.query(TbMaeChulHapGae) 
-                    entries = [dict(MaeJangCode = q.MaeJangCode, MaeChulDate = q.MaeChulDate) for q in queries]
+                    queries = db_session.query(TbMaeChulHapGae.MaeChulDate, func.sum(TbMaeChulHapGae.HapGaeGumAk)).group_by(TbMaeChulHapGae.MaeChulDate).filter(TbMaeChulHapGae.MaeJangCode == post_data['maeJangCode'],
+                        TbMaeChulHapGae.MaeChulDate >= post_data['startDate'],
+                        TbMaeChulHapGae.MaeChulDate <= post_data['endDate']).all()
+
+                    entries = [dict(MaeChulDate = q[0], GumAk = q[1]) for q in queries]
                     response_object = {'status': 'success', 'msg':'ok'}
                     response_object['datas'] = entries 
 

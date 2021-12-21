@@ -5,7 +5,7 @@
           class="float-right"
           variant="primary"
           style="margin-left:3px"
-          @click="getData()">xxx
+          @click="getData()">Get Data
       </b-button>
     <div class="columns">
       <div class="column">
@@ -118,6 +118,8 @@
           .then((res) => { // this를 쓰기위해 콜백을 이렇게 써야 한다.
             if (res.status === 200) {
               console.log(res.data);
+              this.bardatacollection.datasets.data = [100, 20, 30, 50, 90, 10, 20, 40, 50, 70, 90, 100]
+              this.bardatacollection.datasets.labels = ['j', 'f', 'm', 'a', 'm', 'j', 'j', 'a', 's', 'o', 'n', 'd']
             }
           })
           .catch((err) => {
