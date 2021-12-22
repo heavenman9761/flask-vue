@@ -3,14 +3,57 @@ import { Bar } from 'vue-chartjs'
 
 export default {
   extends: Bar,
-  props: ['chartData', 'options'],
-  mounted () {
-    this.renderChart(this.chartData, this.options)
+  props: {
+    date: {
+      type: Array,
+    },
+    gumak: {
+      type: Array,
+    }
   },
-  watch: { // this will be our flag for update
-      'chartData.update_flag': function(new_val, old_val) {
-          this.$data._chart.update();
+  data() {
+    return {
+      chartData: {
+        labels: this.date,
+        datasets: [
+          {
+            label: '일별매출',
+            backgroundColor: '#f87979',
+            pointBackgroundColor: 'white',
+            borderWidth: 1,
+            pointBorderColor: '#249EBF',
+            data:this.gumak
+          }
+        ]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            },
+            gridLines: {
+              display: true
+            }
+          }],
+          xAxes: [ {
+            gridLines: {
+              display: false
+            }
+          }]
+        },
+        legend: {
+          display: true
+        },
+        responsive: true,
+        maintainAspectRatio: false
       }
+    }
+  },
+  watch: {
+    date: function() {
+      this.renderChart(this.chartData, this.options)
+    }
   },
 }
 </script>

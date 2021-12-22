@@ -19,9 +19,9 @@ class getDayMaeChul(Resource):
                     print(post_data)
                     response_object = {'status': 'success'}
                     print(post_data['maeJangCode'], post_data['startDate'], post_data['endDate'])
-                    queries = db_session.query(TbMaeChulHapGae).filter(TbMaeChulHapGae.MaeJangCode == post_data['maeJangCode'],
-                        TbMaeChulHapGae.MaeChulDate >= post_data['startDate'],
-                        TbMaeChulHapGae.MaeChulDate <= post_data['endDate']).all()
+                    # queries = db_session.query(TbMaeChulHapGae).filter(TbMaeChulHapGae.MaeJangCode == post_data['maeJangCode'],
+                    #     TbMaeChulHapGae.MaeChulDate >= post_data['startDate'],
+                    #     TbMaeChulHapGae.MaeChulDate <= post_data['endDate']).all()
 
                     queries = db_session.query(TbMaeChulHapGae.MaeChulDate, func.sum(TbMaeChulHapGae.HapGaeGumAk)).group_by(TbMaeChulHapGae.MaeChulDate).filter(TbMaeChulHapGae.MaeJangCode == post_data['maeJangCode'],
                         TbMaeChulHapGae.MaeChulDate >= post_data['startDate'],
