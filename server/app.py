@@ -93,5 +93,5 @@ def disconnect():
 if __name__ == '__main__':
     app.run(host = '0.0.0.0', port=5000)
     socketio.run(app)
-
+    # 잘되나?
     # SocketIOServer(('0.0.0.0', 5000), app, resource='socket.io').serve_forever()
